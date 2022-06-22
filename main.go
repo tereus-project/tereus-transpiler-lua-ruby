@@ -8,9 +8,9 @@ import (
 func main() {
 	core.InitTranspiler(&core.TranspilerContextConfig{
 		SourceLanguage:              "lua",
-		SourceLanguageFileExtension: "lua",
+		SourceLanguageFileExtension: ".lua",
 		TargetLanguage:              "ruby",
-		TargetLanguageFileExtension: "rb",
+		TargetLanguageFileExtension: ".rb",
 		TranspileFunction:           transpiler.Transpile,
 	})
 }
