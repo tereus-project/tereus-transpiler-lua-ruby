@@ -1,0 +1,22 @@
+app = "tereus-transpiler-lua-ruby"
+
+kill_signal = "SIGINT"
+kill_timeout = 5
+processes = []
+
+[env]
+  ENV = "prod"
+  LOG_LEVEL = "debug"
+  S3_BUCKET = "tereus"
+  S3_ENDPOINT = "ams3.digitaloceanspaces.com"
+  S3_HTTPS_ENABLED = "true"
+
+[experimental]
+  allowed_public_ports = []
+  auto_rollback = true
+
+[[services]]
+  http_checks = []
+  processes = ["app"]
+  protocol = "tcp"
+  script_checks = []

@@ -1,0 +1,15 @@
+Equal=1
+Add=2
+Subtract=3
+Multiply=4
+Divide=5
+Identifier=6
+FloatConstant=7
+IntegerConstant=8
+Whitespace=9
+Newline=10
+'='=1
+'+'=2
+'-'=3
+'*'=4
+'/'=5
