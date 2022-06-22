@@ -17,5 +17,5 @@ func NewASTVariableDeclaration(name string, typ *ASTType, expression IASTExpress
 }
 
 func (v *ASTVariableDeclaration) String() string {
-	return fmt.Sprintf("%s = %s;", v.Name, v.Expression.String())
+	return fmt.Sprintf("%s = %s", v.Name, v.Expression.String())
 }
