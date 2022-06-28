@@ -18,10 +18,35 @@ Subtract: '-';
 Multiply: '*';
 Divide: '/';
 
+And: 'and';
+Break: 'break';
+Do: 'do';
+Else: 'else';
+ElseIf: 'elseif';
+End: 'end';
+False: 'false';
+For: 'for';
+Function: 'function';
+If: 'if';
+In: 'in';
+Local: 'local';
+Nil: 'nil';
+Not: 'not';
+Or: 'or';
+Repeat: 'repeat';
+Return: 'return';
+Then: 'then';
+True: 'true';
+Until: 'until';
+While: 'while';
+
 Identifier: [a-zA-Z_] [a-zA-Z0-9_]*;
 
 FloatConstant: [0-9]+ '.' [0-9]+;
 IntegerConstant: [1-9] [0-9]*;
+
+BlockComment: '--[[' .*? '--]]' -> skip;
+LineComment: '--' ~[\r\n]* -> skip;
 
 Whitespace: [ \t]+ -> skip;
 Newline: ( '\r' '\n'? | '\n') -> skip;

@@ -33,11 +33,17 @@ var luaParserStaticData struct {
 func luaParserInit() {
 	staticData := &luaParserStaticData
 	staticData.literalNames = []string{
-		"", "'='", "'+'", "'-'", "'*'", "'/'",
+		"", "'='", "'+'", "'-'", "'*'", "'/'", "'and'", "'break'", "'do'", "'else'",
+		"'elseif'", "'end'", "'false'", "'for'", "'function'", "'if'", "'in'",
+		"'local'", "'nil'", "'not'", "'or'", "'repeat'", "'return'", "'then'",
+		"'true'", "'until'", "'while'",
 	}
 	staticData.symbolicNames = []string{
-		"", "Equal", "Add", "Subtract", "Multiply", "Divide", "Identifier",
-		"FloatConstant", "IntegerConstant", "Whitespace", "Newline",
+		"", "Equal", "Add", "Subtract", "Multiply", "Divide", "And", "Break",
+		"Do", "Else", "ElseIf", "End", "False", "For", "Function", "If", "In",
+		"Local", "Nil", "Not", "Or", "Repeat", "Return", "Then", "True", "Until",
+		"While", "Identifier", "FloatConstant", "IntegerConstant", "BlockComment",
+		"LineComment", "Whitespace", "Newline",
 	}
 	staticData.ruleNames = []string{
 		"translation", "topLevelStatement", "variableDeclaration", "expression",
@@ -45,15 +51,15 @@ func luaParserInit() {
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 10, 36, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 1, 33, 36, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
 		4, 1, 0, 4, 0, 12, 8, 0, 11, 0, 12, 0, 13, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2,
 		1, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 1, 3, 5, 3, 29, 8, 3, 10, 3,
 		12, 3, 32, 9, 3, 1, 4, 1, 4, 1, 4, 0, 1, 6, 5, 0, 2, 4, 6, 8, 0, 2, 1,
-		0, 7, 8, 1, 0, 2, 5, 32, 0, 11, 1, 0, 0, 0, 2, 15, 1, 0, 0, 0, 4, 17, 1,
-		0, 0, 0, 6, 21, 1, 0, 0, 0, 8, 33, 1, 0, 0, 0, 10, 12, 3, 2, 1, 0, 11,
+		0, 28, 29, 1, 0, 2, 5, 32, 0, 11, 1, 0, 0, 0, 2, 15, 1, 0, 0, 0, 4, 17,
+		1, 0, 0, 0, 6, 21, 1, 0, 0, 0, 8, 33, 1, 0, 0, 0, 10, 12, 3, 2, 1, 0, 11,
 		10, 1, 0, 0, 0, 12, 13, 1, 0, 0, 0, 13, 11, 1, 0, 0, 0, 13, 14, 1, 0, 0,
 		0, 14, 1, 1, 0, 0, 0, 15, 16, 3, 4, 2, 0, 16, 3, 1, 0, 0, 0, 17, 18, 5,
-		6, 0, 0, 18, 19, 5, 1, 0, 0, 19, 20, 3, 6, 3, 0, 20, 5, 1, 0, 0, 0, 21,
+		27, 0, 0, 18, 19, 5, 1, 0, 0, 19, 20, 3, 6, 3, 0, 20, 5, 1, 0, 0, 0, 21,
 		22, 6, 3, -1, 0, 22, 23, 7, 0, 0, 0, 23, 30, 1, 0, 0, 0, 24, 25, 10, 1,
 		0, 0, 25, 26, 3, 8, 4, 0, 26, 27, 3, 6, 3, 2, 27, 29, 1, 0, 0, 0, 28, 24,
 		1, 0, 0, 0, 29, 32, 1, 0, 0, 0, 30, 28, 1, 0, 0, 0, 30, 31, 1, 0, 0, 0,
@@ -102,11 +108,34 @@ const (
 	LuaParserSubtract        = 3
 	LuaParserMultiply        = 4
 	LuaParserDivide          = 5
-	LuaParserIdentifier      = 6
-	LuaParserFloatConstant   = 7
-	LuaParserIntegerConstant = 8
-	LuaParserWhitespace      = 9
-	LuaParserNewline         = 10
+	LuaParserAnd             = 6
+	LuaParserBreak           = 7
+	LuaParserDo              = 8
+	LuaParserElse            = 9
+	LuaParserElseIf          = 10
+	LuaParserEnd             = 11
+	LuaParserFalse           = 12
+	LuaParserFor             = 13
+	LuaParserFunction        = 14
+	LuaParserIf              = 15
+	LuaParserIn              = 16
+	LuaParserLocal           = 17
+	LuaParserNil             = 18
+	LuaParserNot             = 19
+	LuaParserOr              = 20
+	LuaParserRepeat          = 21
+	LuaParserReturn          = 22
+	LuaParserThen            = 23
+	LuaParserTrue            = 24
+	LuaParserUntil           = 25
+	LuaParserWhile           = 26
+	LuaParserIdentifier      = 27
+	LuaParserFloatConstant   = 28
+	LuaParserIntegerConstant = 29
+	LuaParserBlockComment    = 30
+	LuaParserLineComment     = 31
+	LuaParserWhitespace      = 32
+	LuaParserNewline         = 33
 )
 
 // LuaParser rules.
