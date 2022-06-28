@@ -11,8 +11,11 @@ type LuaVisitor interface {
 	// Visit a parse tree produced by LuaParser#translation.
 	VisitTranslation(ctx *TranslationContext) interface{}
 
-	// Visit a parse tree produced by LuaParser#topLevelStatement.
-	VisitTopLevelStatement(ctx *TopLevelStatementContext) interface{}
+	// Visit a parse tree produced by LuaParser#chunk.
+	VisitChunk(ctx *ChunkContext) interface{}
+
+	// Visit a parse tree produced by LuaParser#statement.
+	VisitStatement(ctx *StatementContext) interface{}
 
 	// Visit a parse tree produced by LuaParser#variableDeclaration.
 	VisitVariableDeclaration(ctx *VariableDeclarationContext) interface{}
@@ -25,4 +28,13 @@ type LuaVisitor interface {
 
 	// Visit a parse tree produced by LuaParser#binaryOperator.
 	VisitBinaryOperator(ctx *BinaryOperatorContext) interface{}
+
+	// Visit a parse tree produced by LuaParser#ifStatement.
+	VisitIfStatement(ctx *IfStatementContext) interface{}
+
+	// Visit a parse tree produced by LuaParser#elseifStatement.
+	VisitElseifStatement(ctx *ElseifStatementContext) interface{}
+
+	// Visit a parse tree produced by LuaParser#elseStatement.
+	VisitElseStatement(ctx *ElseStatementContext) interface{}
 }

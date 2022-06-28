@@ -1,8 +1,10 @@
 grammar Lua;
 
-translation: topLevelStatement+;
+translation: chunk;
 
-topLevelStatement: variableDeclaration;
+chunk: statement*;
+
+statement: variableDeclaration | ifStatement;
 
 variableDeclaration: Identifier Equal expression;
 
@@ -11,6 +13,11 @@ expression:
 	| expression binaryOperator expression	# ExpressionBinary;
 
 binaryOperator: Add | Subtract | Multiply | Divide;
+
+ifStatement:
+	If expression Then chunk (elseifStatement)* (elseStatement)? End;
+elseifStatement: ElseIf expression chunk;
+elseStatement: Else chunk;
 
 Equal: '=';
 Add: '+';

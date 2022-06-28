@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
-	"github.com/tereus-project/tereus-transpiler-template/parser"
+	"github.com/tereus-project/tereus-transpiler-lua-ruby/parser"
 )
 
 type RemixerErrorListener struct {

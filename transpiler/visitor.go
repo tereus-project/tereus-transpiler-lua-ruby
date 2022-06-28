@@ -4,8 +4,8 @@ import (
 	"fmt"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
-	"github.com/tereus-project/tereus-transpiler-template/parser"
-	"github.com/tereus-project/tereus-transpiler-template/transpiler/ast"
+	"github.com/tereus-project/tereus-transpiler-lua-ruby/parser"
+	"github.com/tereus-project/tereus-transpiler-lua-ruby/transpiler/ast"
 )
 
 type Visitor struct {
@@ -27,23 +27,36 @@ func (v *Visitor) NotImplementedError(token antlr.Token) error {
 }
 
 func (v *Visitor) VisitTranslation(ctx *parser.TranslationContext) (string, error) {
-	output := ""
-
-	for _, topLevelStatement := range ctx.AllTopLevelStatement() {
-		topLevelStatement, err := v.VisitTopLevelStatement(topLevelStatement.(*parser.TopLevelStatementContext))
-		if err != nil {
-			return "", err
-		}
-
-		output += topLevelStatement.String() + "\n"
+	chunk, err := v.VisitChunk(ctx.Chunk().(*parser.ChunkContext))
+	if err != nil {
+		return "", err
 	}
 
-	return output, nil
+	return chunk.String(), nil
 }
 
-func (v *Visitor) VisitTopLevelStatement(ctx *parser.TopLevelStatementContext) (ast.IASTItem, error) {
+func (v *Visitor) VisitChunk(ctx *parser.ChunkContext) (*ast.ASTChunk, error) {
+	chunk := ast.NewASTChunk()
+
+	for _, child := range ctx.AllStatement() {
+		statement, err := v.VisitStatement(child.(*parser.StatementContext))
+		if err != nil {
+			return nil, err
+		}
+
+		chunk.Add(statement)
+	}
+
+	return chunk, nil
+}
+
+func (v *Visitor) VisitStatement(ctx *parser.StatementContext) (ast.IASTItem, error) {
 	if child := ctx.VariableDeclaration(); child != nil {
 		return v.VisitVariableDeclaration(child.(*parser.VariableDeclarationContext))
+	}
+
+	if child := ctx.IfStatement(); child != nil {
+		return v.VisitIfStatement(child.(*parser.IfStatementContext))
 	}
 
 	return nil, v.NotImplementedError(ctx.GetStart())
@@ -58,6 +71,58 @@ func (v *Visitor) VisitVariableDeclaration(ctx *parser.VariableDeclarationContex
 	}
 
 	return ast.NewASTVariableDeclaration(name, expression.GetType(), expression), nil
+}
+
+func (v *Visitor) VisitIfStatement(ctx *parser.IfStatementContext) (*ast.ASTIf, error) {
+	condition, err := v.VisitExpression(ctx.Expression())
+	if err != nil {
+		return nil, err
+	}
+
+	then, err := v.VisitChunk(ctx.Chunk().(*parser.ChunkContext))
+	if err != nil {
+		return nil, err
+	}
+
+	ifItem := ast.NewASTIf(condition, then, nil, nil)
+
+	for _, child := range ctx.AllElseifStatement() {
+		elseIf, err := v.VisitElseifStatement(child.(*parser.ElseifStatementContext))
+		if err != nil {
+			return nil, err
+		}
+
+		ifItem.AddElseIf(elseIf)
+	}
+
+	if child := ctx.ElseStatement(); child != nil {
+		elseStatement, err := v.VisitElseStatement(child.(*parser.ElseStatementContext))
+		if err != nil {
+			return nil, err
+		}
+
+		ifItem.Else = elseStatement
+	}
+
+	return ifItem, nil
+}
+
+func (v *Visitor) VisitElseifStatement(ctx *parser.ElseifStatementContext) (*ast.ASTIf, error) {
+	condition, err := v.VisitExpression(ctx.Expression())
+	if err != nil {
+		return nil, err
+	}
+
+	then, err := v.VisitChunk(ctx.Chunk().(*parser.ChunkContext))
+	if err != nil {
+		return nil, err
+	}
+
+	return ast.NewASTIf(condition, then, nil, nil), nil
+}
+
+func (v *Visitor) VisitElseStatement(ctx *parser.ElseStatementContext) (*ast.ASTChunk, error) {
+	return v.VisitChunk(ctx.Chunk().(*parser.ChunkContext))
 }
 
 func (v *Visitor) VisitExpression(ctx parser.IExpressionContext) (ast.IASTExpression, error) {
