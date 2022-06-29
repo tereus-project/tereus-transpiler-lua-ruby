@@ -59,6 +59,10 @@ func (v *Visitor) VisitStatement(ctx *parser.StatementContext) (ast.IASTItem, er
 		return v.VisitIfStatement(child.(*parser.IfStatementContext))
 	}
 
+	if child := ctx.WhileStatement(); child != nil {
+		return v.VisitWhileStatement(child.(*parser.WhileStatementContext))
+	}
+
 	return nil, v.NotImplementedError(ctx.GetStart())
 }
 
@@ -123,6 +127,20 @@ func (v *Visitor) VisitElseifStatement(ctx *parser.ElseifStatementContext) (*ast
 
 func (v *Visitor) VisitElseStatement(ctx *parser.ElseStatementContext) (*ast.ASTChunk, error) {
 	return v.VisitChunk(ctx.Chunk().(*parser.ChunkContext))
+}
+
+func (v *Visitor) VisitWhileStatement(ctx *parser.WhileStatementContext) (*ast.ASTWhile, error) {
+	condition, err := v.VisitExpression(ctx.Expression())
+	if err != nil {
+		return nil, err
+	}
+
+	body, err := v.VisitChunk(ctx.Chunk().(*parser.ChunkContext))
+	if err != nil {
+		return nil, err
+	}
+
+	return ast.NewASTWhile(condition, body), nil
 }
 
 func (v *Visitor) VisitExpression(ctx parser.IExpressionContext) (ast.IASTExpression, error) {

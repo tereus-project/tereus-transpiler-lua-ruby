@@ -4,7 +4,7 @@ translation: chunk;
 
 chunk: statement*;
 
-statement: variableDeclaration | ifStatement;
+statement: variableDeclaration | ifStatement | whileStatement;
 
 variableDeclaration: Identifier Equal expression;
 
@@ -18,6 +18,8 @@ ifStatement:
 	If expression Then chunk (elseifStatement)* (elseStatement)? End;
 elseifStatement: ElseIf expression chunk;
 elseStatement: Else chunk;
+
+whileStatement: While expression Do chunk End;
 
 Equal: '=';
 Add: '+';

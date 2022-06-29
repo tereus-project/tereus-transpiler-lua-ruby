@@ -37,4 +37,7 @@ type LuaVisitor interface {
 
 	// Visit a parse tree produced by LuaParser#elseStatement.
 	VisitElseStatement(ctx *ElseStatementContext) interface{}
+
+	// Visit a parse tree produced by LuaParser#whileStatement.
+	VisitWhileStatement(ctx *WhileStatementContext) interface{}
 }

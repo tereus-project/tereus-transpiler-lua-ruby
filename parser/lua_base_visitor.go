@@ -47,3 +47,7 @@ func (v *BaseLuaVisitor) VisitElseifStatement(ctx *ElseifStatementContext) inter
 func (v *BaseLuaVisitor) VisitElseStatement(ctx *ElseStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
+
+func (v *BaseLuaVisitor) VisitWhileStatement(ctx *WhileStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}
