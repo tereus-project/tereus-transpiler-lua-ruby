@@ -4,7 +4,11 @@ translation: chunk;
 
 chunk: statement*;
 
-statement: variableDeclaration | ifStatement | whileStatement;
+statement:
+	variableDeclaration
+	| ifStatement
+	| whileStatement
+	| numericForStatement;
 
 variableDeclaration: Identifier Equal expression;
 
@@ -21,11 +25,17 @@ elseStatement: Else chunk;
 
 whileStatement: While expression Do chunk End;
 
+numericForStatement:
+	For Identifier Equal expression Comma expression (
+		Comma expression
+	)? Do chunk End;
+
 Equal: '=';
 Add: '+';
 Subtract: '-';
 Multiply: '*';
 Divide: '/';
+Comma: ',';
 
 And: 'and';
 Break: 'break';

@@ -51,3 +51,7 @@ func (v *BaseLuaVisitor) VisitElseStatement(ctx *ElseStatementContext) interface
 func (v *BaseLuaVisitor) VisitWhileStatement(ctx *WhileStatementContext) interface{} {
 	return v.VisitChildren(ctx)
 }
+
+func (v *BaseLuaVisitor) VisitNumericForStatement(ctx *NumericForStatementContext) interface{} {
+	return v.VisitChildren(ctx)
+}

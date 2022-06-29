@@ -33,55 +33,62 @@ var luaParserStaticData struct {
 func luaParserInit() {
 	staticData := &luaParserStaticData
 	staticData.literalNames = []string{
-		"", "'='", "'+'", "'-'", "'*'", "'/'", "'and'", "'break'", "'do'", "'else'",
-		"'elseif'", "'end'", "'false'", "'for'", "'function'", "'if'", "'in'",
-		"'local'", "'nil'", "'not'", "'or'", "'repeat'", "'return'", "'then'",
-		"'true'", "'until'", "'while'",
+		"", "'='", "'+'", "'-'", "'*'", "'/'", "','", "'and'", "'break'", "'do'",
+		"'else'", "'elseif'", "'end'", "'false'", "'for'", "'function'", "'if'",
+		"'in'", "'local'", "'nil'", "'not'", "'or'", "'repeat'", "'return'",
+		"'then'", "'true'", "'until'", "'while'",
 	}
 	staticData.symbolicNames = []string{
-		"", "Equal", "Add", "Subtract", "Multiply", "Divide", "And", "Break",
-		"Do", "Else", "ElseIf", "End", "False", "For", "Function", "If", "In",
-		"Local", "Nil", "Not", "Or", "Repeat", "Return", "Then", "True", "Until",
-		"While", "Identifier", "FloatConstant", "IntegerConstant", "BlockComment",
-		"LineComment", "Whitespace", "Newline",
+		"", "Equal", "Add", "Subtract", "Multiply", "Divide", "Comma", "And",
+		"Break", "Do", "Else", "ElseIf", "End", "False", "For", "Function",
+		"If", "In", "Local", "Nil", "Not", "Or", "Repeat", "Return", "Then",
+		"True", "Until", "While", "Identifier", "FloatConstant", "IntegerConstant",
+		"BlockComment", "LineComment", "Whitespace", "Newline",
 	}
 	staticData.ruleNames = []string{
 		"translation", "chunk", "statement", "variableDeclaration", "expression",
 		"binaryOperator", "ifStatement", "elseifStatement", "elseStatement",
-		"whileStatement",
+		"whileStatement", "numericForStatement",
 	}
 	staticData.predictionContextCache = antlr.NewPredictionContextCache()
 	staticData.serializedATN = []int32{
-		4, 1, 33, 80, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
-		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 1, 0, 1,
-		0, 1, 1, 5, 1, 24, 8, 1, 10, 1, 12, 1, 27, 9, 1, 1, 2, 1, 2, 1, 2, 3, 2,
-		32, 8, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1, 4, 1,
-		4, 5, 4, 45, 8, 4, 10, 4, 12, 4, 48, 9, 4, 1, 5, 1, 5, 1, 6, 1, 6, 1, 6,
-		1, 6, 1, 6, 5, 6, 57, 8, 6, 10, 6, 12, 6, 60, 9, 6, 1, 6, 3, 6, 63, 8,
-		6, 1, 6, 1, 6, 1, 7, 1, 7, 1, 7, 1, 7, 1, 8, 1, 8, 1, 8, 1, 9, 1, 9, 1,
-		9, 1, 9, 1, 9, 1, 9, 1, 9, 0, 1, 8, 10, 0, 2, 4, 6, 8, 10, 12, 14, 16,
-		18, 0, 2, 1, 0, 28, 29, 1, 0, 2, 5, 75, 0, 20, 1, 0, 0, 0, 2, 25, 1, 0,
-		0, 0, 4, 31, 1, 0, 0, 0, 6, 33, 1, 0, 0, 0, 8, 37, 1, 0, 0, 0, 10, 49,
-		1, 0, 0, 0, 12, 51, 1, 0, 0, 0, 14, 66, 1, 0, 0, 0, 16, 70, 1, 0, 0, 0,
-		18, 73, 1, 0, 0, 0, 20, 21, 3, 2, 1, 0, 21, 1, 1, 0, 0, 0, 22, 24, 3, 4,
-		2, 0, 23, 22, 1, 0, 0, 0, 24, 27, 1, 0, 0, 0, 25, 23, 1, 0, 0, 0, 25, 26,
-		1, 0, 0, 0, 26, 3, 1, 0, 0, 0, 27, 25, 1, 0, 0, 0, 28, 32, 3, 6, 3, 0,
-		29, 32, 3, 12, 6, 0, 30, 32, 3, 18, 9, 0, 31, 28, 1, 0, 0, 0, 31, 29, 1,
-		0, 0, 0, 31, 30, 1, 0, 0, 0, 32, 5, 1, 0, 0, 0, 33, 34, 5, 27, 0, 0, 34,
-		35, 5, 1, 0, 0, 35, 36, 3, 8, 4, 0, 36, 7, 1, 0, 0, 0, 37, 38, 6, 4, -1,
-		0, 38, 39, 7, 0, 0, 0, 39, 46, 1, 0, 0, 0, 40, 41, 10, 1, 0, 0, 41, 42,
-		3, 10, 5, 0, 42, 43, 3, 8, 4, 2, 43, 45, 1, 0, 0, 0, 44, 40, 1, 0, 0, 0,
-		45, 48, 1, 0, 0, 0, 46, 44, 1, 0, 0, 0, 46, 47, 1, 0, 0, 0, 47, 9, 1, 0,
-		0, 0, 48, 46, 1, 0, 0, 0, 49, 50, 7, 1, 0, 0, 50, 11, 1, 0, 0, 0, 51, 52,
-		5, 15, 0, 0, 52, 53, 3, 8, 4, 0, 53, 54, 5, 23, 0, 0, 54, 58, 3, 2, 1,
-		0, 55, 57, 3, 14, 7, 0, 56, 55, 1, 0, 0, 0, 57, 60, 1, 0, 0, 0, 58, 56,
-		1, 0, 0, 0, 58, 59, 1, 0, 0, 0, 59, 62, 1, 0, 0, 0, 60, 58, 1, 0, 0, 0,
-		61, 63, 3, 16, 8, 0, 62, 61, 1, 0, 0, 0, 62, 63, 1, 0, 0, 0, 63, 64, 1,
-		0, 0, 0, 64, 65, 5, 11, 0, 0, 65, 13, 1, 0, 0, 0, 66, 67, 5, 10, 0, 0,
-		67, 68, 3, 8, 4, 0, 68, 69, 3, 2, 1, 0, 69, 15, 1, 0, 0, 0, 70, 71, 5,
-		9, 0, 0, 71, 72, 3, 2, 1, 0, 72, 17, 1, 0, 0, 0, 73, 74, 5, 26, 0, 0, 74,
-		75, 3, 8, 4, 0, 75, 76, 5, 8, 0, 0, 76, 77, 3, 2, 1, 0, 77, 78, 5, 11,
-		0, 0, 78, 19, 1, 0, 0, 0, 5, 25, 31, 46, 58, 62,
+		4, 1, 34, 97, 2, 0, 7, 0, 2, 1, 7, 1, 2, 2, 7, 2, 2, 3, 7, 3, 2, 4, 7,
+		4, 2, 5, 7, 5, 2, 6, 7, 6, 2, 7, 7, 7, 2, 8, 7, 8, 2, 9, 7, 9, 2, 10, 7,
+		10, 1, 0, 1, 0, 1, 1, 5, 1, 26, 8, 1, 10, 1, 12, 1, 29, 9, 1, 1, 2, 1,
+		2, 1, 2, 1, 2, 3, 2, 35, 8, 2, 1, 3, 1, 3, 1, 3, 1, 3, 1, 4, 1, 4, 1, 4,
+		1, 4, 1, 4, 1, 4, 1, 4, 5, 4, 48, 8, 4, 10, 4, 12, 4, 51, 9, 4, 1, 5, 1,
+		5, 1, 6, 1, 6, 1, 6, 1, 6, 1, 6, 5, 6, 60, 8, 6, 10, 6, 12, 6, 63, 9, 6,
+		1, 6, 3, 6, 66, 8, 6, 1, 6, 1, 6, 1, 7, 1, 7, 1, 7, 1, 7, 1, 8, 1, 8, 1,
+		8, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 9, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10,
+		1, 10, 1, 10, 1, 10, 3, 10, 91, 8, 10, 1, 10, 1, 10, 1, 10, 1, 10, 1, 10,
+		0, 1, 8, 11, 0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 0, 2, 1, 0, 29, 30,
+		1, 0, 2, 5, 93, 0, 22, 1, 0, 0, 0, 2, 27, 1, 0, 0, 0, 4, 34, 1, 0, 0, 0,
+		6, 36, 1, 0, 0, 0, 8, 40, 1, 0, 0, 0, 10, 52, 1, 0, 0, 0, 12, 54, 1, 0,
+		0, 0, 14, 69, 1, 0, 0, 0, 16, 73, 1, 0, 0, 0, 18, 76, 1, 0, 0, 0, 20, 82,
+		1, 0, 0, 0, 22, 23, 3, 2, 1, 0, 23, 1, 1, 0, 0, 0, 24, 26, 3, 4, 2, 0,
+		25, 24, 1, 0, 0, 0, 26, 29, 1, 0, 0, 0, 27, 25, 1, 0, 0, 0, 27, 28, 1,
+		0, 0, 0, 28, 3, 1, 0, 0, 0, 29, 27, 1, 0, 0, 0, 30, 35, 3, 6, 3, 0, 31,
+		35, 3, 12, 6, 0, 32, 35, 3, 18, 9, 0, 33, 35, 3, 20, 10, 0, 34, 30, 1,
+		0, 0, 0, 34, 31, 1, 0, 0, 0, 34, 32, 1, 0, 0, 0, 34, 33, 1, 0, 0, 0, 35,
+		5, 1, 0, 0, 0, 36, 37, 5, 28, 0, 0, 37, 38, 5, 1, 0, 0, 38, 39, 3, 8, 4,
+		0, 39, 7, 1, 0, 0, 0, 40, 41, 6, 4, -1, 0, 41, 42, 7, 0, 0, 0, 42, 49,
+		1, 0, 0, 0, 43, 44, 10, 1, 0, 0, 44, 45, 3, 10, 5, 0, 45, 46, 3, 8, 4,
+		2, 46, 48, 1, 0, 0, 0, 47, 43, 1, 0, 0, 0, 48, 51, 1, 0, 0, 0, 49, 47,
+		1, 0, 0, 0, 49, 50, 1, 0, 0, 0, 50, 9, 1, 0, 0, 0, 51, 49, 1, 0, 0, 0,
+		52, 53, 7, 1, 0, 0, 53, 11, 1, 0, 0, 0, 54, 55, 5, 16, 0, 0, 55, 56, 3,
+		8, 4, 0, 56, 57, 5, 24, 0, 0, 57, 61, 3, 2, 1, 0, 58, 60, 3, 14, 7, 0,
+		59, 58, 1, 0, 0, 0, 60, 63, 1, 0, 0, 0, 61, 59, 1, 0, 0, 0, 61, 62, 1,
+		0, 0, 0, 62, 65, 1, 0, 0, 0, 63, 61, 1, 0, 0, 0, 64, 66, 3, 16, 8, 0, 65,
+		64, 1, 0, 0, 0, 65, 66, 1, 0, 0, 0, 66, 67, 1, 0, 0, 0, 67, 68, 5, 12,
+		0, 0, 68, 13, 1, 0, 0, 0, 69, 70, 5, 11, 0, 0, 70, 71, 3, 8, 4, 0, 71,
+		72, 3, 2, 1, 0, 72, 15, 1, 0, 0, 0, 73, 74, 5, 10, 0, 0, 74, 75, 3, 2,
+		1, 0, 75, 17, 1, 0, 0, 0, 76, 77, 5, 27, 0, 0, 77, 78, 3, 8, 4, 0, 78,
+		79, 5, 9, 0, 0, 79, 80, 3, 2, 1, 0, 80, 81, 5, 12, 0, 0, 81, 19, 1, 0,
+		0, 0, 82, 83, 5, 14, 0, 0, 83, 84, 5, 28, 0, 0, 84, 85, 5, 1, 0, 0, 85,
+		86, 3, 8, 4, 0, 86, 87, 5, 6, 0, 0, 87, 90, 3, 8, 4, 0, 88, 89, 5, 6, 0,
+		0, 89, 91, 3, 8, 4, 0, 90, 88, 1, 0, 0, 0, 90, 91, 1, 0, 0, 0, 91, 92,
+		1, 0, 0, 0, 92, 93, 5, 9, 0, 0, 93, 94, 3, 2, 1, 0, 94, 95, 5, 12, 0, 0,
+		95, 21, 1, 0, 0, 0, 6, 27, 34, 49, 61, 65, 90,
 	}
 	deserializer := antlr.NewATNDeserializer(nil)
 	staticData.atn = deserializer.Deserialize(staticData.serializedATN)
@@ -125,34 +132,35 @@ const (
 	LuaParserSubtract        = 3
 	LuaParserMultiply        = 4
 	LuaParserDivide          = 5
-	LuaParserAnd             = 6
-	LuaParserBreak           = 7
-	LuaParserDo              = 8
-	LuaParserElse            = 9
-	LuaParserElseIf          = 10
-	LuaParserEnd             = 11
-	LuaParserFalse           = 12
-	LuaParserFor             = 13
-	LuaParserFunction        = 14
-	LuaParserIf              = 15
-	LuaParserIn              = 16
-	LuaParserLocal           = 17
-	LuaParserNil             = 18
-	LuaParserNot             = 19
-	LuaParserOr              = 20
-	LuaParserRepeat          = 21
-	LuaParserReturn          = 22
-	LuaParserThen            = 23
-	LuaParserTrue            = 24
-	LuaParserUntil           = 25
-	LuaParserWhile           = 26
-	LuaParserIdentifier      = 27
-	LuaParserFloatConstant   = 28
-	LuaParserIntegerConstant = 29
-	LuaParserBlockComment    = 30
-	LuaParserLineComment     = 31
-	LuaParserWhitespace      = 32
-	LuaParserNewline         = 33
+	LuaParserComma           = 6
+	LuaParserAnd             = 7
+	LuaParserBreak           = 8
+	LuaParserDo              = 9
+	LuaParserElse            = 10
+	LuaParserElseIf          = 11
+	LuaParserEnd             = 12
+	LuaParserFalse           = 13
+	LuaParserFor             = 14
+	LuaParserFunction        = 15
+	LuaParserIf              = 16
+	LuaParserIn              = 17
+	LuaParserLocal           = 18
+	LuaParserNil             = 19
+	LuaParserNot             = 20
+	LuaParserOr              = 21
+	LuaParserRepeat          = 22
+	LuaParserReturn          = 23
+	LuaParserThen            = 24
+	LuaParserTrue            = 25
+	LuaParserUntil           = 26
+	LuaParserWhile           = 27
+	LuaParserIdentifier      = 28
+	LuaParserFloatConstant   = 29
+	LuaParserIntegerConstant = 30
+	LuaParserBlockComment    = 31
+	LuaParserLineComment     = 32
+	LuaParserWhitespace      = 33
+	LuaParserNewline         = 34
 )
 
 // LuaParser rules.
@@ -167,6 +175,7 @@ const (
 	LuaParserRULE_elseifStatement     = 7
 	LuaParserRULE_elseStatement       = 8
 	LuaParserRULE_whileStatement      = 9
+	LuaParserRULE_numericForStatement = 10
 )
 
 // ITranslationContext is an interface to support dynamic dispatch.
@@ -266,7 +275,7 @@ func (p *LuaParser) Translation() (localctx ITranslationContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(20)
+		p.SetState(22)
 		p.Chunk()
 	}
 
@@ -395,17 +404,17 @@ func (p *LuaParser) Chunk() (localctx IChunkContext) {
 	}()
 
 	p.EnterOuterAlt(localctx, 1)
-	p.SetState(25)
+	p.SetState(27)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
-	for ((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<LuaParserIf)|(1<<LuaParserWhile)|(1<<LuaParserIdentifier))) != 0 {
+	for ((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<LuaParserFor)|(1<<LuaParserIf)|(1<<LuaParserWhile)|(1<<LuaParserIdentifier))) != 0 {
 		{
-			p.SetState(22)
+			p.SetState(24)
 			p.Statement()
 		}
 
-		p.SetState(27)
+		p.SetState(29)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
@@ -499,6 +508,22 @@ func (s *StatementContext) WhileStatement() IWhileStatementContext {
 	return t.(IWhileStatementContext)
 }
 
+func (s *StatementContext) NumericForStatement() INumericForStatementContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(INumericForStatementContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(INumericForStatementContext)
+}
+
 func (s *StatementContext) GetRuleContext() antlr.RuleContext {
 	return s
 }
@@ -540,29 +565,36 @@ func (p *LuaParser) Statement() (localctx IStatementContext) {
 		}
 	}()
 
-	p.SetState(31)
+	p.SetState(34)
 	p.GetErrorHandler().Sync(p)
 
 	switch p.GetTokenStream().LA(1) {
 	case LuaParserIdentifier:
 		p.EnterOuterAlt(localctx, 1)
 		{
-			p.SetState(28)
+			p.SetState(30)
 			p.VariableDeclaration()
 		}
 
 	case LuaParserIf:
 		p.EnterOuterAlt(localctx, 2)
 		{
-			p.SetState(29)
+			p.SetState(31)
 			p.IfStatement()
 		}
 
 	case LuaParserWhile:
 		p.EnterOuterAlt(localctx, 3)
 		{
-			p.SetState(30)
+			p.SetState(32)
 			p.WhileStatement()
+		}
+
+	case LuaParserFor:
+		p.EnterOuterAlt(localctx, 4)
+		{
+			p.SetState(33)
+			p.NumericForStatement()
 		}
 
 	default:
@@ -677,15 +709,15 @@ func (p *LuaParser) VariableDeclaration() (localctx IVariableDeclarationContext)
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(33)
+		p.SetState(36)
 		p.Match(LuaParserIdentifier)
 	}
 	{
-		p.SetState(34)
+		p.SetState(37)
 		p.Match(LuaParserEqual)
 	}
 	{
-		p.SetState(35)
+		p.SetState(38)
 		p.expression(0)
 	}
 
@@ -904,7 +936,7 @@ func (p *LuaParser) expression(_p int) (localctx IExpressionContext) {
 	_prevctx = localctx
 
 	{
-		p.SetState(38)
+		p.SetState(41)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(_la == LuaParserFloatConstant || _la == LuaParserIntegerConstant) {
@@ -916,7 +948,7 @@ func (p *LuaParser) expression(_p int) (localctx IExpressionContext) {
 	}
 
 	p.GetParserRuleContext().SetStop(p.GetTokenStream().LT(-1))
-	p.SetState(46)
+	p.SetState(49)
 	p.GetErrorHandler().Sync(p)
 	_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 
@@ -928,22 +960,22 @@ func (p *LuaParser) expression(_p int) (localctx IExpressionContext) {
 			_prevctx = localctx
 			localctx = NewExpressionBinaryContext(p, NewExpressionContext(p, _parentctx, _parentState))
 			p.PushNewRecursionContext(localctx, _startState, LuaParserRULE_expression)
-			p.SetState(40)
+			p.SetState(43)
 
 			if !(p.Precpred(p.GetParserRuleContext(), 1)) {
 				panic(antlr.NewFailedPredicateException(p, "p.Precpred(p.GetParserRuleContext(), 1)", ""))
 			}
 			{
-				p.SetState(41)
+				p.SetState(44)
 				p.BinaryOperator()
 			}
 			{
-				p.SetState(42)
+				p.SetState(45)
 				p.expression(2)
 			}
 
 		}
-		p.SetState(48)
+		p.SetState(51)
 		p.GetErrorHandler().Sync(p)
 		_alt = p.GetInterpreter().AdaptivePredict(p.GetTokenStream(), 2, p.GetParserRuleContext())
 	}
@@ -1049,7 +1081,7 @@ func (p *LuaParser) BinaryOperator() (localctx IBinaryOperatorContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(49)
+		p.SetState(52)
 		_la = p.GetTokenStream().LA(1)
 
 		if !(((_la)&-(0x1f+1)) == 0 && ((1<<uint(_la))&((1<<LuaParserAdd)|(1<<LuaParserSubtract)|(1<<LuaParserMultiply)|(1<<LuaParserDivide))) != 0) {
@@ -1246,48 +1278,48 @@ func (p *LuaParser) IfStatement() (localctx IIfStatementContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(51)
+		p.SetState(54)
 		p.Match(LuaParserIf)
 	}
 	{
-		p.SetState(52)
+		p.SetState(55)
 		p.expression(0)
 	}
 	{
-		p.SetState(53)
+		p.SetState(56)
 		p.Match(LuaParserThen)
 	}
 	{
-		p.SetState(54)
+		p.SetState(57)
 		p.Chunk()
 	}
-	p.SetState(58)
+	p.SetState(61)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	for _la == LuaParserElseIf {
 		{
-			p.SetState(55)
+			p.SetState(58)
 			p.ElseifStatement()
 		}
 
-		p.SetState(60)
+		p.SetState(63)
 		p.GetErrorHandler().Sync(p)
 		_la = p.GetTokenStream().LA(1)
 	}
-	p.SetState(62)
+	p.SetState(65)
 	p.GetErrorHandler().Sync(p)
 	_la = p.GetTokenStream().LA(1)
 
 	if _la == LuaParserElse {
 		{
-			p.SetState(61)
+			p.SetState(64)
 			p.ElseStatement()
 		}
 
 	}
 	{
-		p.SetState(64)
+		p.SetState(67)
 		p.Match(LuaParserEnd)
 	}
 
@@ -1411,15 +1443,15 @@ func (p *LuaParser) ElseifStatement() (localctx IElseifStatementContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(66)
+		p.SetState(69)
 		p.Match(LuaParserElseIf)
 	}
 	{
-		p.SetState(67)
+		p.SetState(70)
 		p.expression(0)
 	}
 	{
-		p.SetState(68)
+		p.SetState(71)
 		p.Chunk()
 	}
 
@@ -1527,11 +1559,11 @@ func (p *LuaParser) ElseStatement() (localctx IElseStatementContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(70)
+		p.SetState(73)
 		p.Match(LuaParserElse)
 	}
 	{
-		p.SetState(71)
+		p.SetState(74)
 		p.Chunk()
 	}
 
@@ -1663,23 +1695,244 @@ func (p *LuaParser) WhileStatement() (localctx IWhileStatementContext) {
 
 	p.EnterOuterAlt(localctx, 1)
 	{
-		p.SetState(73)
+		p.SetState(76)
 		p.Match(LuaParserWhile)
 	}
 	{
-		p.SetState(74)
+		p.SetState(77)
 		p.expression(0)
 	}
 	{
-		p.SetState(75)
+		p.SetState(78)
 		p.Match(LuaParserDo)
 	}
 	{
-		p.SetState(76)
+		p.SetState(79)
 		p.Chunk()
 	}
 	{
-		p.SetState(77)
+		p.SetState(80)
+		p.Match(LuaParserEnd)
+	}
+
+	return localctx
+}
+
+// INumericForStatementContext is an interface to support dynamic dispatch.
+type INumericForStatementContext interface {
+	antlr.ParserRuleContext
+
+	// GetParser returns the parser.
+	GetParser() antlr.Parser
+
+	// IsNumericForStatementContext differentiates from other interfaces.
+	IsNumericForStatementContext()
+}
+
+type NumericForStatementContext struct {
+	*antlr.BaseParserRuleContext
+	parser antlr.Parser
+}
+
+func NewEmptyNumericForStatementContext() *NumericForStatementContext {
+	var p = new(NumericForStatementContext)
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(nil, -1)
+	p.RuleIndex = LuaParserRULE_numericForStatement
+	return p
+}
+
+func (*NumericForStatementContext) IsNumericForStatementContext() {}
+
+func NewNumericForStatementContext(parser antlr.Parser, parent antlr.ParserRuleContext, invokingState int) *NumericForStatementContext {
+	var p = new(NumericForStatementContext)
+
+	p.BaseParserRuleContext = antlr.NewBaseParserRuleContext(parent, invokingState)
+
+	p.parser = parser
+	p.RuleIndex = LuaParserRULE_numericForStatement
+
+	return p
+}
+
+func (s *NumericForStatementContext) GetParser() antlr.Parser { return s.parser }
+
+func (s *NumericForStatementContext) For() antlr.TerminalNode {
+	return s.GetToken(LuaParserFor, 0)
+}
+
+func (s *NumericForStatementContext) Identifier() antlr.TerminalNode {
+	return s.GetToken(LuaParserIdentifier, 0)
+}
+
+func (s *NumericForStatementContext) Equal() antlr.TerminalNode {
+	return s.GetToken(LuaParserEqual, 0)
+}
+
+func (s *NumericForStatementContext) AllExpression() []IExpressionContext {
+	children := s.GetChildren()
+	len := 0
+	for _, ctx := range children {
+		if _, ok := ctx.(IExpressionContext); ok {
+			len++
+		}
+	}
+
+	tst := make([]IExpressionContext, len)
+	i := 0
+	for _, ctx := range children {
+		if t, ok := ctx.(IExpressionContext); ok {
+			tst[i] = t.(IExpressionContext)
+			i++
+		}
+	}
+
+	return tst
+}
+
+func (s *NumericForStatementContext) Expression(i int) IExpressionContext {
+	var t antlr.RuleContext
+	j := 0
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IExpressionContext); ok {
+			if j == i {
+				t = ctx.(antlr.RuleContext)
+				break
+			}
+			j++
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IExpressionContext)
+}
+
+func (s *NumericForStatementContext) AllComma() []antlr.TerminalNode {
+	return s.GetTokens(LuaParserComma)
+}
+
+func (s *NumericForStatementContext) Comma(i int) antlr.TerminalNode {
+	return s.GetToken(LuaParserComma, i)
+}
+
+func (s *NumericForStatementContext) Do() antlr.TerminalNode {
+	return s.GetToken(LuaParserDo, 0)
+}
+
+func (s *NumericForStatementContext) Chunk() IChunkContext {
+	var t antlr.RuleContext
+	for _, ctx := range s.GetChildren() {
+		if _, ok := ctx.(IChunkContext); ok {
+			t = ctx.(antlr.RuleContext)
+			break
+		}
+	}
+
+	if t == nil {
+		return nil
+	}
+
+	return t.(IChunkContext)
+}
+
+func (s *NumericForStatementContext) End() antlr.TerminalNode {
+	return s.GetToken(LuaParserEnd, 0)
+}
+
+func (s *NumericForStatementContext) GetRuleContext() antlr.RuleContext {
+	return s
+}
+
+func (s *NumericForStatementContext) ToStringTree(ruleNames []string, recog antlr.Recognizer) string {
+	return antlr.TreesStringTree(s, ruleNames, recog)
+}
+
+func (s *NumericForStatementContext) Accept(visitor antlr.ParseTreeVisitor) interface{} {
+	switch t := visitor.(type) {
+	case LuaVisitor:
+		return t.VisitNumericForStatement(s)
+
+	default:
+		return t.VisitChildren(s)
+	}
+}
+
+func (p *LuaParser) NumericForStatement() (localctx INumericForStatementContext) {
+	this := p
+	_ = this
+
+	localctx = NewNumericForStatementContext(p, p.GetParserRuleContext(), p.GetState())
+	p.EnterRule(localctx, 20, LuaParserRULE_numericForStatement)
+	var _la int
+
+	defer func() {
+		p.ExitRule()
+	}()
+
+	defer func() {
+		if err := recover(); err != nil {
+			if v, ok := err.(antlr.RecognitionException); ok {
+				localctx.SetException(v)
+				p.GetErrorHandler().ReportError(p, v)
+				p.GetErrorHandler().Recover(p, v)
+			} else {
+				panic(err)
+			}
+		}
+	}()
+
+	p.EnterOuterAlt(localctx, 1)
+	{
+		p.SetState(82)
+		p.Match(LuaParserFor)
+	}
+	{
+		p.SetState(83)
+		p.Match(LuaParserIdentifier)
+	}
+	{
+		p.SetState(84)
+		p.Match(LuaParserEqual)
+	}
+	{
+		p.SetState(85)
+		p.expression(0)
+	}
+	{
+		p.SetState(86)
+		p.Match(LuaParserComma)
+	}
+	{
+		p.SetState(87)
+		p.expression(0)
+	}
+	p.SetState(90)
+	p.GetErrorHandler().Sync(p)
+	_la = p.GetTokenStream().LA(1)
+
+	if _la == LuaParserComma {
+		{
+			p.SetState(88)
+			p.Match(LuaParserComma)
+		}
+		{
+			p.SetState(89)
+			p.expression(0)
+		}
+
+	}
+	{
+		p.SetState(92)
+		p.Match(LuaParserDo)
+	}
+	{
+		p.SetState(93)
+		p.Chunk()
+	}
+	{
+		p.SetState(94)
 		p.Match(LuaParserEnd)
 	}
 

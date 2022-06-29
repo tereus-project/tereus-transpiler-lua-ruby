@@ -40,4 +40,7 @@ type LuaVisitor interface {
 
 	// Visit a parse tree produced by LuaParser#whileStatement.
 	VisitWhileStatement(ctx *WhileStatementContext) interface{}
+
+	// Visit a parse tree produced by LuaParser#numericForStatement.
+	VisitNumericForStatement(ctx *NumericForStatementContext) interface{}
 }

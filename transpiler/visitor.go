@@ -63,6 +63,10 @@ func (v *Visitor) VisitStatement(ctx *parser.StatementContext) (ast.IASTItem, er
 		return v.VisitWhileStatement(child.(*parser.WhileStatementContext))
 	}
 
+	if child := ctx.NumericForStatement(); child != nil {
+		return v.VisitNumericForStatement(child.(*parser.NumericForStatementContext))
+	}
+
 	return nil, v.NotImplementedError(ctx.GetStart())
 }
 
@@ -141,6 +145,36 @@ func (v *Visitor) VisitWhileStatement(ctx *parser.WhileStatementContext) (*ast.A
 	}
 
 	return ast.NewASTWhile(condition, body), nil
+}
+
+func (v *Visitor) VisitNumericForStatement(ctx *parser.NumericForStatementContext) (*ast.ASTNumericFor, error) {
+	variableName := ctx.Identifier().GetText()
+
+	initializer, err := v.VisitExpression(ctx.Expression(0))
+	if err != nil {
+		return nil, err
+	}
+
+	condition, err := v.VisitExpression(ctx.Expression(1))
+	if err != nil {
+		return nil, err
+	}
+
+	var increment ast.IASTExpression
+
+	if child := ctx.Expression(2); child != nil {
+		increment, err = v.VisitExpression(ctx.Expression(2))
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	body, err := v.VisitChunk(ctx.Chunk().(*parser.ChunkContext))
+	if err != nil {
+		return nil, err
+	}
+
+	return ast.NewASTNumericFor(ast.NewASTVariableDeclaration(variableName, initializer.GetType(), initializer), condition, increment, body), nil
 }
 
 func (v *Visitor) VisitExpression(ctx parser.IExpressionContext) (ast.IASTExpression, error) {
