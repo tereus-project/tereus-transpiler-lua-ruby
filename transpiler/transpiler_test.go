@@ -22,8 +22,8 @@ b = 3.14
 `
 
 	target := `
-integer a is 5;
-floating b is 3.14;
+a = 5
+b = 3.14
 `
 
 	assertTranspilation(t, source, target)
@@ -36,8 +36,8 @@ b = 3.14 + 2.71
 `
 
 	target := `
-integer a is 5 plus 3;
-floating b is 3.14 plus 2.71;
+a = 5 + 3
+b = 3.14 + 2.71
 `
 
 	assertTranspilation(t, source, target)
