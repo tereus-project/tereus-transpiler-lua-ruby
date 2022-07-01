@@ -1,5 +1,6 @@
-app = "tereus-transpiler-lua-ruby"
+# fly.toml file generated for tereus-transpiler-lua-ruby on 2022-07-01T09:31:20Z
 
+app = "tereus-transpiler-lua-ruby"
 kill_signal = "SIGINT"
 kill_timeout = 5
 processes = []
