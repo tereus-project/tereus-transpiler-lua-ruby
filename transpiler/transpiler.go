@@ -6,6 +6,7 @@ import (
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/tereus-project/tereus-transpiler-lua-ruby/parser"
+	"github.com/tereus-project/tereus-transpiler-std/core"
 )
 
 type RemixerErrorListener struct {
@@ -33,8 +34,8 @@ func (l *RemixerErrorListener) ReportAttemptingFullContext(recognizer antlr.Pars
 func (l *RemixerErrorListener) ReportContextSensitivity(recognizer antlr.Parser, dfa *antlr.DFA, startIndex, stopIndex, prediction int, configs antlr.ATNConfigSet) {
 }
 
-func Transpile(entrypoint string) (string, error) {
-	input, err := antlr.NewFileStream(entrypoint)
+func Transpile(config *core.TranspileFunctionConfig) (string, error) {
+	input, err := antlr.NewFileStream(config.LocalPath)
 	if err != nil {
 		return "", err
 	}
@@ -45,7 +46,7 @@ func Transpile(entrypoint string) (string, error) {
 	p.Interpreter.SetPredictionMode(antlr.PredictionModeSLL)
 	p.RemoveErrorListeners()
 
-	errorListener := NewRemixerErrorListener(entrypoint)
+	errorListener := NewRemixerErrorListener(config.LocalPath)
 	p.AddErrorListener(errorListener)
 
 	tree := p.Translation()
@@ -54,7 +55,7 @@ func Transpile(entrypoint string) (string, error) {
 		return "", fmt.Errorf("%s", strings.Join(errorListener.Errors, "\n"))
 	}
 
-	visitor := NewVisitor(entrypoint)
+	visitor := NewVisitor(config.LocalPathPrefix, config.LocalPath)
 	output, err := visitor.VisitTranslation(tree.(*parser.TranslationContext))
 	if err != nil {
 		return "", err

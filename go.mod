@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/antlr/antlr4/runtime/Go/antlr v0.0.0-20220626175859-9abda183db8e
-	github.com/tereus-project/tereus-transpiler-std v0.0.0-20220704084725-abd944ca01a4
+	github.com/tereus-project/tereus-transpiler-std v0.0.0-20220706080052-deb6aa02b9fe
 )
 
 require (

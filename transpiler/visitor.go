@@ -2,6 +2,7 @@ package transpiler
 
 import (
 	"fmt"
+	"strings"
 
 	"github.com/antlr/antlr4/runtime/Go/antlr"
 	"github.com/tereus-project/tereus-transpiler-lua-ruby/parser"
@@ -9,17 +10,19 @@ import (
 )
 
 type Visitor struct {
-	Path string
+	Prefix string
+	Path   string
 }
 
-func NewVisitor(path string) *Visitor {
+func NewVisitor(prefix string, path string) *Visitor {
 	return &Visitor{
-		Path: path,
+		Prefix: prefix,
+		Path:   path,
 	}
 }
 
-func (v *Visitor) PositionedTranslationError(token antlr.Token, message string) error {
-	return fmt.Errorf("%s:%d:%d: %s", v.Path, token.GetLine(), token.GetColumn(), message)
+func (v *Visitor) PositionedTranslationError(start antlr.Token, message string) error {
+	return fmt.Errorf("%s:%d:%d: %s", strings.TrimPrefix(v.Path, v.Prefix), start.GetLine(), start.GetColumn(), message)
 }
 
 func (v *Visitor) NotImplementedError(token antlr.Token) error {
