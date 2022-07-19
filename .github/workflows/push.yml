@@ -32,7 +32,7 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v3
         with:
-          version: latest
+          version: v1.46.2
 
   test:
     runs-on: ubuntu-latest
@@ -44,14 +44,14 @@ jobs:
       - name: Run tests
         run: go test ./... -v
 
-  deploy:
-    name: Deploy app to fly
-    needs: [build, lint, test]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    steps:
-      - uses: actions/checkout@v2
-      - uses: superfly/flyctl-actions/setup-flyctl@master
-      - run: flyctl deploy --remote-only
-        env:
-          FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
+#   deploy:
+#     name: Deploy app to fly
+#     needs: [build, lint, test]
+#     runs-on: ubuntu-latest
+#     if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+#     steps:
+#       - uses: actions/checkout@v2
+#       - uses: superfly/flyctl-actions/setup-flyctl@master
+#       - run: flyctl deploy --remote-only
+#         env:
+#           FLY_API_TOKEN: ${{ secrets.FLY_API_TOKEN }}
